@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';// Import your CSS module here
-import schedule from '../data/schedule';
+// import schedule from '../data/schedule';
+import { getSchedule } from '../api/action';
 
 const CalendarView = () => {
-    // Convert 12-hour format to 24-hour format
-    // const [selectedDate, setSelectedDate] = useState(null);
+    const [schedules, setSchedules] = useState([])
     const parseTime = (timeStr) => {
         const [time, period] = timeStr.split(' ');
         let [hours, minutes] = time.split(':');
@@ -18,7 +18,7 @@ const CalendarView = () => {
     };
 
     // Convert schedule to events
-    const events = schedule.map(item => ({
+    const events = schedules.map(item => ({
         title: item.title,
         start: `${item.date}T${parseTime(item.stime)}`,
         end: `${item.date}T${parseTime(item.etime)}`,
@@ -27,11 +27,25 @@ const CalendarView = () => {
         },
     }));
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getSchedule();
+                // console.log(data.data[0].schedule)
+                setSchedules(data.data[0].schedule)
+
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        fetchData();
+    }, []);
+    // console.log(schedules)
     return (
         <div className="p-4">
             <FullCalendar
                 plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                initialView="dayGridWeek"
+                initialView="dayGridMonth"
                 initialDate="2025-03-01" // Force March 2025 display
                 headerToolbar={{
                     left: 'prev,next',
