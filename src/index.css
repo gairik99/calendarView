@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+.fc-theme-standard .fc-col-header-cell {
+  width: 120px !important;
+  height: 40px !important;
+}
+
+.custom-day-cell {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px;
+  height: 200px;
+  width: 200px;
+}
+
+.day-icon {
+  color: #94a3b8;
+  font-size: 0.9em;
+}
+
+.fc-daygrid-body {
+  width: 100% !important;
+}
+
+.fc-timegrid-slot {
+  height: 60px !important;
+}
+.fc-h-event .fc-event-main-frame {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+    to bottom,
+    rgba(229, 240, 12, 0.75),
+    rgb(234, 168, 13)
+  );
+}
+.fc-event-main {
+  background: rgb(235, 137, 102);
+}
