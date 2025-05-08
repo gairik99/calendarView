@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';// Import your CSS module here
 // import schedule from '../data/schedule';
 import { getSchedule } from '../api/action';
+import useFetch from '../hooks/useFetch';
 
 const CalendarView = () => {
-    const [schedules, setSchedules] = useState([])
+    const { schedules, loading, error } = useFetch(getSchedule);
     const parseTime = (timeStr) => {
         const [time, period] = timeStr.split(' ');
         let [hours, minutes] = time.split(':');
@@ -26,21 +27,8 @@ const CalendarView = () => {
             description: item.description,
         },
     }));
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await getSchedule();
-                // console.log(data.data[0].schedule)
-                setSchedules(data.data[0].schedule)
-
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-        fetchData();
-    }, []);
-    // console.log(schedules)
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
     return (
         <div className="p-4">
             <FullCalendar
