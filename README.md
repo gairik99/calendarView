@@ -29,7 +29,7 @@ SPARK/
 │── src/
 │   │── components/
 |   │── styles/
-|   │── hookd/
+|   │── hook/
 |   │── services/
 │   │── pages/
 │   ├── App.js
